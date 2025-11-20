@@ -113,22 +113,6 @@ starter/
 - Provide recorded demos and the solution app APK for Android so attendees can follow along.
 - Use DartPad for very small Flutter examples (note: networking is limited in DartPad).
 
-## Teacher approval: one‑page proposal
-Title: Workshop — Mobile App Development with Flutter (90 min)
-Objectives: [list the learning objectives]
-Audience: 4th‑year HBO students (Computer & Technical Engineering), mixed experience.
-Format: Live demo + guided hands‑on lab + Q&A. Require students to install Flutter before the session; provide Gitpod fallback.
-Date/Time: [proposed]
-Required resources: Room with projector, internet, participants’ laptops, emulators or devices.
-Assessment: short post‑workshop feedback + small code submission (optional).
-Approval signature: _____________________
-
-## Finding an external expert — outreach template
-Hello [Name],
-I'm organizing a 90–120 minute workshop on mobile app development with Flutter for 4th‑year HBO students. I would value your help to review the materials and be present during the session to assist participants. The session focuses on building a small app and connecting it to a public API.
-Would you be available to (a) review the slide deck and lab instructions, and (b) attend the workshop on [date]? Compensation: [TBD] or thanks in credits.
-Best, [Your name]
-
 ## Pilot & rehearsal checklist
 - Run the full workshop at least once with 2–3 peers.
 - Time each section and record where you go over/under time.
@@ -140,17 +124,7 @@ Best, [Your name]
 - Instructor machine with Flutter installed (tested).
 - Starter repo accessible (GitHub).
 
-## Evaluation & follow‑up
-- Short post‑workshop survey (1–5 rating + 1 free text).
-- Share slide deck, starter & solution repo, cheat sheet and recorded clips.
-- Suggest next steps: advanced Flutter state management (Provider/Bloc), testing, Firebase integration, publishing to stores.
-
-## Example assessment questions (pre/post)
-- Have you installed Flutter and run a starter app? (Y/N)
-- Rate your confidence building a simple UI (1–5).
-- Can you explain the difference between StatelessWidget and StatefulWidget? (short answer)
-
-## Appendix: Quick run script (for instructors)
+## Appendix: Quick run script
 1. Clone the starter repo.
 2. cd starter
 3. flutter pub get
