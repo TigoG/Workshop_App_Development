@@ -1,0 +1,40 @@
+# Android/Gradle build files and IDE configs
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Build folders
+**/build/
+ /build/
+
+# Gradle
+.gradle/
+ /gradle/wrapper/gradle-wrapper.jar
+
+# Local configuration
+local.properties
+*.iml
+.idea/
+.vscode/
+
+# Android Studio
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+
+# Keystore files
+*.jks
+*.keystore
+
+# Generated files
+**/generated/
+
+# Misc
+.DS_Store
+*.log
+*.tmp
+*.swp
+*~

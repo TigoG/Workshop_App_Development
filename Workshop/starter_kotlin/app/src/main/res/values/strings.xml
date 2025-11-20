@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Starter Kotlin</string>
+    <string name="app_greeting">Hello from Kotlin — Starter for experienced developers</string>
+    <string name="button_label">Click me</string>
+</resources>
