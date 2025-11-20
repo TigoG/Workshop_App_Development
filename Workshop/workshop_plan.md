@@ -1,4 +1,4 @@
-# Workshop: Mobile App Development with Flutter (1.5–2 hours)
+# Workshop: Mobile App Development with Flutter (90 minutes)
 
 ## Overview
 This workshop gives participants a practical introduction to mobile app development using Flutter. Primary focus is on hands‑on development: building a simple single‑screen app, connecting to a public API, and understanding widget structure and basic state management.
@@ -31,33 +31,60 @@ If some participants cannot install Flutter, provide fallback options (see Fallb
 - Guided hands‑on lab (pair up participants if needed).
 - Short Q&A and pointers to follow‑up resources.
 
-## Detailed agenda (two timing options)
-### 90‑minute (1.5 hr) agenda — recommended
+## Detailed agenda (90‑minute agenda)
 - 00:00–00:10 (10 min): Welcome, objectives, quick environment check.
 - 00:10–00:25 (15 min): Starter app walkthrough & run the app on devices/emulator.
 - 00:25–00:50 (25 min): Live demo: build UI, explain StatefulWidget, add simple interactivity.
-- 00:50–01:20 (30 min): Guided hands‑on lab: fetch and display data from a public API.
+- 00:50–01:20 (30 min): Guided hands‑on lab: participants choose one of four lab tracks (Snake, Flappy Bird, Layout, States) and work on the selected starter.
 - 01:20–01:30 (10 min): Wrap‑up, next steps, resources, and feedback link.
 
-### 120‑minute (2 hr) agenda — expanded
-- 00:00–00:10 (10 min): Welcome, objectives, environment check.
-- 00:10–00:25 (15 min): Starter app walkthrough & run the app.
-- 00:25–00:45 (20 min): Live demo: UI + stateful interactions.
-- 00:45–01:10 (25 min): Add HTTP fetch & display (demo + guided edits).
-- 01:10–01:40 (30 min): Hands‑on lab: extend the app (e.g., add a detail view or favourite).
-- 01:40–02:00 (20 min): Wrap‑up, Q&A, resources, feedback.
-
 ## Hands‑on lab (90‑min core)
-Lab goal: Starting from a starter repo, implement a simple app that fetches a list of items from a public JSON API and displays them in a ListView. Add a simple local “favourite” toggle per item (held in memory).
+Lab goal: Participants choose ONE of four lab tracks — Snake, Flappy Bird, Layout, or States — and implement the core features of that track starting from the starter repo. Each track is scoped to be approachable within the 30‑minute lab window.
 
-Core lab steps (high level):
-1. Clone starter repo and run `flutter pub get` and `flutter run`.
-2. Inspect `lib/main.dart` and run the existing starter UI.
-3. Add the `http` package to `pubspec.yaml`.
-4. Create a simple data model and write an async function to fetch JSON from https://jsonplaceholder.typicode.com/posts.
-5. Use a `FutureBuilder` to show a loading state, then a `ListView` of titles.
-6. Add a simple in‑memory favourites set and a `setState` toggle to mark favourites.
-7. Optional: implement tap → detail screen using `Navigator.push`.
+Tracks (pick one)
+- Snake (game)
+  - Goal: implement snake movement, food spawning, collision detection and scoring.
+  - Starter: [`Workshop/starter/lib/pages/snake_starter.dart`](Workshop/starter/lib/pages/snake_starter.dart:1)
+  - Solution: [`Workshop/solution/lib/pages/snake_solution.dart`](Workshop/solution/lib/pages/snake_solution.dart:1)
+  - Core steps:
+    1. Run the starter and locate the snake scaffold.
+    2. Implement the snake model and movement controls.
+    3. Add food spawning and collision detection.
+    4. Display score and restart on game over.
+
+- Flappy Bird (game)
+  - Goal: implement gravity, tap‑to‑flap, pipes and scoring.
+  - Starter: [`Workshop/starter/lib/pages/flappy_starter.dart`](Workshop/starter/lib/pages/flappy_starter.dart:1)
+  - Solution: [`Workshop/solution/lib/pages/flappy_solution.dart`](Workshop/solution/lib/pages/flappy_solution.dart:1)
+  - Core steps:
+    1. Run the starter and find the flappy scaffold.
+    2. Add gravity and flap on tap.
+    3. Spawn pipes and detect collisions.
+    4. Track and display score.
+
+- Layout (UI)
+  - Goal: build a responsive screen using Rows/Columns/Flex/Expanded and MediaQuery.
+  - Starter: [`Workshop/starter/lib/pages/layout_starter.dart`](Workshop/starter/lib/pages/layout_starter.dart:1)
+  - Solution: [`Workshop/solution/lib/pages/layout_solution.dart`](Workshop/solution/lib/pages/layout_solution.dart:1)
+  - Core steps:
+    1. Open the starter and inspect the layout scaffold.
+    2. Implement responsive widgets using Expanded/Flexible and MediaQuery.
+    3. Ensure layout adapts to narrow/wide widths and orientation changes.
+
+- States (state management basics)
+  - Goal: implement local state (`setState`), toggles/favourites and simple UI updates.
+  - Starter: [`Workshop/starter/lib/pages/state_starter.dart`](Workshop/starter/lib/pages/state_starter.dart:1)
+  - Solution: [`Workshop/solution/lib/pages/state_solution.dart`](Workshop/solution/lib/pages/state_solution.dart:1)
+  - Core steps:
+    1. Run the starter and find the state scaffold.
+    2. Add an in‑memory data model and toggle controls.
+    3. Use `setState` to update the UI and reflect favourites.
+
+General core lab steps:
+1. Clone the starter repo and run `flutter pub get` and `flutter run`.
+2. Inspect [`Workshop/starter/lib/main.dart`](Workshop/starter/lib/main.dart:1) to see how pages are wired and how to run each track.
+3. Choose a track and follow the track's core steps above.
+4. Optional: implement small extensions (detail screens, persistent storage, polish).
 
 Instructor tips:
 - Keep code small and incremental; show one change, run, then proceed.
@@ -87,7 +114,7 @@ starter/
 - Use DartPad for very small Flutter examples (note: networking is limited in DartPad).
 
 ## Teacher approval: one‑page proposal
-Title: Workshop — Mobile App Development with Flutter (90–120 min)
+Title: Workshop — Mobile App Development with Flutter (90 min)
 Objectives: [list the learning objectives]
 Audience: 4th‑year HBO students (Computer & Technical Engineering), mixed experience.
 Format: Live demo + guided hands‑on lab + Q&A. Require students to install Flutter before the session; provide Gitpod fallback.
