@@ -69,5 +69,3 @@ Common issues & fixes quick list
 1) Flutter binary not found in Android Studio plugin: set Flutter SDK path to the folder that contains `bin` (e.g. [`flutter/bin/flutter.bat`](flutter/bin/flutter.bat:1)).
 2) 'No connected devices' — start an emulator from AVD Manager or connect a physical device and run `flutter devices`.
 3) 'Execution failed for task :app:installDebug' — uninstall the previous app from device or run `adb uninstall <package>` and retry.
-
-That's it — follow these steps to run the app with Android Studio.

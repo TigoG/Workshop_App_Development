@@ -54,7 +54,6 @@ Running the workshop apps
 
 Quick recovery options for a classroom
 - Keep a prebuilt debug APK (flutter build apk) to install via adb for students who can't build locally.
-- Provide a Gitpod/Codespaces fallback for participants who cannot install the SDK.
 
 Where to find files
 - Starter code: [`starter/lib/main.dart`](starter/lib/main.dart:1)

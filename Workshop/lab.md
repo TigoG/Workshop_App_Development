@@ -1,148 +1,111 @@
-# Lab: Build the Flutter Workshop App (guided steps)
+# Lab: Flutter workshop — pick a track and build
 
 Overview
 
-This lab guides participants through incremental tasks that extend the starter app into the solution app. The starter app is at [`starter/lib/main.dart`](starter/lib/main.dart:1). The final solution is in [`solution/lib/main.dart`](solution/lib/main.dart:1) once complete.
+This hands‑on lab is organized as short, focused tracks. Participants choose ONE track and implement the core functionality starting from the starter project. Each track is scoped to be approachable in ~30 minutes. Use the solution project to recover or compare your implementation.
 
-Objectives
+Learning objectives
 
-- Run and explore the starter app.
-- Implement pull-to-refresh and search/filtering.
-- Persist favorites locally with shared_preferences.
-- Add a small UI polish (search bar, improved list items).
-
-Estimated duration
-
-- Setup & run starter: 10 minutes
-- Inspect code & starter behavior: 10 minutes
-- Pull-to-refresh: 15 minutes
-- Search/filter: 20 minutes
-- Persist favorites (optional / stretch): 20 minutes
-- Finish & test: 15 minutes
+- Run and explore a Flutter starter app.
+- Implement a focused feature (game mechanics or responsive layout).
+- Practice simple state updates with setState and optional local persistence.
+- Debug and recover using the provided solution code.
 
 Prerequisites
 
-- Flutter SDK installed and set up (run `flutter doctor`).
-- VS Code or Android Studio (with Flutter plugins).
-- Android emulator or physical device.
-- Git and access to the workshop repo.
+- Flutter SDK installed and available on PATH (verify with flutter doctor).
+- Android Studio or VS Code with Flutter/Dart plugins installed.
+- Android emulator or physical device available.
+- Git and access to the workshop repository.
 
 Quick start
 
-1. Clone the repo and open the starter folder:
+1. Clone the repo and open the Workshop folder:
+   git clone https://github.com/TigoG/Workshop_App_Development.git
 
-   git clone <your-repo-url>
-   cd starter
+2. Open the starter project and get packages:
+   cd Workshop/starter
+   flutter pub get
+
+3. Run the starter app:
+   flutter run
+
+4. If you need to recover quickly, open the solution project:
+   cd ../solution
    flutter pub get
    flutter run
 
-2. Open [`starter/lib/main.dart`](starter/lib/main.dart:1) in your editor and read the code.
+Repository layout (important files)
 
-Step 0 — Explore the starter app
+- Starter main: [`starter/lib/main.dart`](starter/lib/main.dart:1)
+- Solution main: [`solution/lib/main.dart`](solution/lib/main.dart:1)
+- Track starters (inside starter/lib/pages):
+  - [`starter/lib/pages/snake_starter.dart`](starter/lib/pages/snake_starter.dart:1)
+  - [`starter/lib/pages/flappy_starter.dart`](starter/lib/pages/flappy_starter.dart:1)
+  - [`starter/lib/pages/layout_starter.dart`](starter/lib/pages/layout_starter.dart:1)
+  - [`starter/lib/pages/state_starter.dart`](starter/lib/pages/state_starter.dart:1)
 
-1. Run the app and verify it shows a list of posts fetched from https://jsonplaceholder.typicode.com/posts.
-2. Notice the favourite toggle (heart icon) and the detail view when tapping an item.
-3. Look at the Post model and the _fetchPosts function in [`starter/lib/main.dart`](starter/lib/main.dart:1).
+Choose a track (pick ONE)
 
-Step 1 — Add pull-to-refresh
+- Snake — implement movement, food spawning, collisions. Open [`starter/lib/pages/snake_starter.dart`](starter/lib/pages/snake_starter.dart:1).
+- Flappy — implement gravity, tap‑to‑flap, pipes, scoring. Open [`starter/lib/pages/flappy_starter.dart`](starter/lib/pages/flappy_starter.dart:1).
+- Layout — build a responsive UI using Rows/Columns/Expanded and MediaQuery. Open [`starter/lib/pages/layout_starter.dart`](starter/lib/pages/layout_starter.dart:1).
+- States — implement toggles/favourites and local UI state. Open [`starter/lib/pages/state_starter.dart`](starter/lib/pages/state_starter.dart:1).
 
-Goal: Allow users to pull down the list to refresh posts from the network.
+Session flow — first 30 minutes instructor presentation, remainder participants' work
 
-a) Wrap the ListView.builder in a RefreshIndicator.
+- 0–30 min: Instructor presentation & demo — cover objectives, repo layout, how to run the starter, a short live demo of one example track, and where to find the solution for recovery: [`solution/lib/main.dart`](solution/lib/main.dart:1).
+- 30–80 min: Participants: choose ONE track and work independently (complete core steps, then pick one stretch/polish). Instructor circulates to unblock devices, emulator issues, dependencies, and logic questions.
+- 80–90 min: Wrap up — invite 1–3 short demos (30–60s each), collect commits/PRs or zipped submissions, and summarize next steps.
 
-b) Implement an async _refreshPosts function that re-calls _fetchPosts and updates the UI. Example:
+Instructor tip: Keep the presentation focused and short so participants can spend most of the workshop actively building. Provide a prebuilt APK (`flutter build apk --debug`) or open the solution project if many students need a quick recovery option.
 
-   // insert into _HomePageState
-   Future<void> _refreshPosts() async {
-     final newPosts = await _fetchPosts();
-     setState(() {
-       _postsFuture = Future.value(newPosts);
-     });
-   }
+Track core steps (copy‑paste friendly hints)
 
-c) Replace the ListView builder return with:
+- Snake
+  1. Find or implement a game loop (Timer / periodic tick) to step the snake.
+  2. Update snake body positions on each tick and handle direction changes from user input.
+  3. Spawn food randomly; detect head-food collisions, grow snake, increase score.
+  4. Detect collisions with walls or self and show a restart overlay.
+  Solution: [`solution/lib/pages/snake_solution.dart`](solution/lib/pages/snake_solution.dart:1)
 
-   return RefreshIndicator(
-     onRefresh: _refreshPosts,
-     child: ListView.builder(...),
-   );
+- Flappy
+  1. Add a vertical velocity and apply gravity each tick; call setState() to update the bird's Y position.
+  2. On user tap, add an upward impulse to the velocity.
+  3. Spawn pipes that move left; detect collisions with the bird and stop the game on collision.
+  4. Increase score when the bird passes pipes; show game over and restart controls.
+  Solution: [`solution/lib/pages/flappy_solution.dart`](solution/lib/pages/flappy_solution.dart:1)
 
-d) Run the app and test pulling to refresh. If the network is slow, you'll see the loading indicator again.
+- Layout
+  1. Replace placeholders with responsive widgets (Row/Column/Expanded/Flexible).
+  2. Use MediaQuery or LayoutBuilder to adjust the layout for narrow/wide screens.
+  3. Test on different device sizes and orientations; fix overflows and spacing.
+  Solution: [`solution/lib/pages/layout_solution.dart`](solution/lib/pages/layout_solution.dart:1)
 
-Step 2 — Add search / filtering
+- States
+  1. Implement a simple in‑memory data model (list of items) and UI to toggle favorites.
+  2. Use setState to update the UI; ensure state is preserved while the app runs.
+  3. (Stretch) Persist favourites using shared_preferences and load them in initState.
+  Solution: [`solution/lib/pages/state_solution.dart`](solution/lib/pages/state_solution.dart:1)
 
-Goal: Add a search box to filter posts by title.
+Stretch goals (pick one)
 
-a) Add a TextField in the AppBar or as a small widget above the ListView. Example (simple AppBar action approach):
+- Persist favourites with shared_preferences so they survive restarts.
+- Add a Hero animation or small transition to the detail screen.
+- Add undo for favourite removal or a favourites-only filter.
+- Add basic widget tests for core logic.
 
-   // add String _query = '' to the state
+Troubleshooting quick fixes
 
-   // place a TextField above the list (or in a modal) and update _query via onChanged
+- Run flutter doctor to verify your environment.
+- Run flutter clean && flutter pub get when dependency/build issues occur.
+- If no device is available, start an emulator with flutter emulators --launch <emulatorId> or start AVD Manager in Android Studio (see [`Workshop/HOW_TO_RUN_ANDROID_STUDIO.md`](Workshop/HOW_TO_RUN_ANDROID_STUDIO.md:1)).
+- For Gradle/JDK issues, use the embedded JDK in Android Studio or set JDK 11+ in settings.
 
-b) When building list items, filter the posts list using:
+Useful commands
 
-   final filtered = posts.where((p) => p.title.contains(_query)).toList();
-
-c) Use the filtered list in the ListView.builder instead of posts.
-
-d) Test typing text and verify the list filters live.
-
-Step 3 — Persist favorites with shared_preferences (optional / stretch)
-
-Goal: Save favourite post IDs locally so they survive app restarts.
-
-a) Add `shared_preferences` to `pubspec.yaml` in the `starter/` or `solution/` project:
-
-   shared_preferences: ^2.1.0
-
-b) In `_HomePageState`, load saved favourites in initState using SharedPreferences:
-
-   final prefs = await SharedPreferences.getInstance();
-   final favList = prefs.getStringList('favorites') ?? [];
-   setState(() {
-     _favorites = favList.map(int.parse).toSet();
-   });
-
-c) When toggling a favorite, write the updated set back to prefs:
-
-   await prefs.setStringList('favorites', _favorites.map((i) => i.toString()).toList());
-
-d) Note: `_favorites` above is declared as `Set<int>`; you may need to make it `late` or nullable during initialization.
-
-Step 4 — UI polish & optional extras
-
-Ideas for extra polish (pick one if time allows):
-
-- Add `RefreshIndicator` (if you didn't in Step 1).
-- Add a FloatingActionButton to scroll to top or toggle favorites-only view.
-- Add a small detail page animation or Hero transition for title.
-- Add pull-to-refresh + error handling with retry button.
-
-Step 5 — Compare to the solution
-
-1. After finishing, open [`solution/lib/main.dart`](solution/lib/main.dart:1) and compare your implementation with the provided solution.
-2. Run the solution app to verify behaviour.
-
-Submission
-
-- Push your branch to the class repo or zip and submit as instructed by the workshop instructor.
-
-Instructor notes
-
-- If people get stuck on emulator setup, switch them to the solution APK or Gitpod.
-- Use the solution branch to recover quickly if many participants break the starter.
-
-Troubleshooting tips
-
-- If network calls fail in emulator, check emulator internet or use a physical device.
-- Run `flutter clean` and `flutter pub get` if packages behave strangely.
-- If errors mention AndroidX or gradle, try updating the SDK/emulator or use a prebuilt APK to continue.
-
-Solution notes
-
-- The solution implements pull-to-refresh, search, and (optionally) persisted favourites.
-- See [`solution/lib/main.dart`](solution/lib/main.dart:1) for the final code.
-
-End of lab
-
-Good luck — ask for help if you get stuck. Keep changes small and test often.
+- flutter doctor
+- flutter devices
+- flutter emulators --launch <emulatorId>
+- flutter run
+- flutter build apk --debug
