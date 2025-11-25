@@ -1,45 +1,43 @@
-/*
-HIGH-LEVEL APPROACH:
-- Use LayoutBuilder and MediaQuery to detect available width and choose responsive breakpoints (example: 600 px).
-- For narrow screens render a single-column vertical stack; for wide screens use a two-column Row with Expanded/Flexible.
-- Grid examples use GridView.count with adaptive crossAxisCount computed from available width.
-- Demonstrate Expanded vs Flexible with three colored boxes so students can see how space is shared.
-- Interactive controls (Dropdown, Slider, Switch) allow toggling modes and spacing. Test responsiveness by resizing the window/emulator or switching the 'Auto' mode.
-
-TIPS / EXPLANATION section below contains instructor notes and common pitfalls.
-*/
-
+// UI using LayoutController
 import 'package:flutter/material.dart';
+import 'layout_controller.dart';
 
-class LayoutSolutionPage extends StatefulWidget {
-  const LayoutSolutionPage({Key? key}) : super(key: key);
-  static const String routeName = '/layout';
+class LayoutRefactorPage extends StatefulWidget {
+  const LayoutRefactorPage({Key? key}) : super(key: key);
+  static const String routeName = '/layout_refactor';
   @override
-  State<LayoutSolutionPage> createState() => _LayoutSolutionPageState();
+  State<LayoutRefactorPage> createState() => _LayoutRefactorPageState();
 }
 
-enum LayoutMode { auto, single, twoColumn, grid }
+class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
+  late final LayoutController _controller;
 
-class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
-  LayoutMode _mode = LayoutMode.auto;
-  double _gap = 12.0;
-  bool _showDebug = false;
+  @override
+  void initState() {
+    super.initState();
+    _controller = LayoutController();
+    _controller.addListener(_onChanged);
+  }
 
-  static const double _breakpoint = 600.0;
+  void _onChanged() => setState(() {});
+
+  @override
+  void dispose() {
+    _controller.removeListener(_onChanged);
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Layout — Solution')),
+      appBar: AppBar(title: const Text('Layout — Refactored')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: LayoutBuilder(
           builder: (context, constraints) {
             final width = constraints.maxWidth;
-            // Determine effective mode when in Auto
-            final effectiveMode = _mode == LayoutMode.auto
-                ? (width < _breakpoint ? LayoutMode.single : LayoutMode.twoColumn)
-                : _mode;
+            final effectiveMode = _controller.effectiveModeForWidth(width);
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -65,17 +63,16 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
     );
   }
 
-  // Control panel with Dropdown, Slider, and Debug switch
   Widget _buildControlPanel(double width) {
     return Row(
       children: [
         const Text('Mode:'),
         const SizedBox(width: 8),
         DropdownButton<LayoutMode>(
-          value: _mode,
-          onChanged: (v) => setState(() {
-            if (v != null) _mode = v;
-          }),
+          value: _controller.mode,
+          onChanged: (v) {
+            if (v != null) _controller.setMode(v);
+          },
           items: const [
             DropdownMenuItem(value: LayoutMode.auto, child: Text('Auto')),
             DropdownMenuItem(value: LayoutMode.single, child: Text('Single Column')),
@@ -92,13 +89,13 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
                 child: Slider(
                   min: 0,
                   max: 32,
-                  value: _gap,
-                  onChanged: (v) => setState(() => _gap = v),
+                  value: _controller.gap,
+                  onChanged: (v) => _controller.setGap(v),
                 ),
               ),
               SizedBox(
                 width: 48,
-                child: Text(_gap.toStringAsFixed(0), textAlign: TextAlign.right),
+                child: Text(_controller.gap.toStringAsFixed(0), textAlign: TextAlign.right),
               ),
             ],
           ),
@@ -109,8 +106,8 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
           children: [
             const Text('Debug'),
             Switch(
-              value: _showDebug,
-              onChanged: (v) => setState(() => _showDebug = v),
+              value: _controller.showDebug,
+              onChanged: (_) => _controller.toggleShowDebug(),
             ),
           ],
         ),
@@ -118,7 +115,6 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
     );
   }
 
-  // Build the live preview area. Show main layout and a flex demo below it.
   Widget _buildPreview(LayoutMode mode, double width) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -131,20 +127,18 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
           ),
         ),
         const SizedBox(height: 8),
-        // The main example area; allow it to take available space
         Expanded(
           child: Container(
-            padding: EdgeInsets.all(_gap / 2),
+            padding: EdgeInsets.all(_controller.gap / 2),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(6),
-              border: _showDebug ? Border.all(color: Colors.blueAccent) : null,
+              border: _controller.showDebug ? Border.all(color: Colors.blueAccent) : null,
             ),
             child: _buildLayoutContent(mode, width),
           ),
         ),
         const SizedBox(height: 12),
-        // Always include the Expanded vs Flexible demonstration
         _buildFlexDemo(),
       ],
     );
@@ -176,47 +170,43 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
     }
   }
 
-  // Single-column layout: stacked cards
   Widget _singleColumnWidget() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _demoCard('Title', Icons.title, Colors.indigo),
-          SizedBox(height: _gap),
+          SizedBox(height: _controller.gap),
           _demoCard('Summary', Icons.subject, Colors.teal),
-          SizedBox(height: _gap),
+          SizedBox(height: _controller.gap),
           _demoCard('Actions', Icons.settings, Colors.orange),
         ],
       ),
     );
   }
 
-  // Two-column layout: responsive row using Expanded/Flexible
   Widget _twoColumnWidget() {
     return Row(
       children: [
-        // Left column: main content (takes more space)
         Expanded(
           flex: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _demoCard('Main content', Icons.dashboard, Colors.indigo),
-              SizedBox(height: _gap),
+              SizedBox(height: _controller.gap),
               _demoCard('More content', Icons.list, Colors.teal),
             ],
           ),
         ),
-        SizedBox(width: _gap),
-        // Right column: details (fixed or flexible)
+        SizedBox(width: _controller.gap),
         Flexible(
           flex: 1,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _demoCard('Details', Icons.info, Colors.blueGrey),
-              SizedBox(height: _gap),
+              SizedBox(height: _controller.gap),
               _demoCard('Actions', Icons.play_arrow, Colors.orange),
             ],
           ),
@@ -225,18 +215,15 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
     );
   }
 
-  // Grid example: crossAxisCount adapts to available width
   Widget _gridWidget(double width) {
-    // Compute an approximate column count based on desired item width
     final desiredItemWidth = 160.0;
     final count = (width / desiredItemWidth).clamp(1, 6).floor();
     final crossAxisCount = count < 1 ? 1 : count;
 
-    // Use GridView.count with shrinkWrap so it works inside Column
     return GridView.count(
       crossAxisCount: crossAxisCount,
-      crossAxisSpacing: _gap,
-      mainAxisSpacing: _gap,
+      crossAxisSpacing: _controller.gap,
+      mainAxisSpacing: _controller.gap,
       children: List.generate(6, (i) {
         final titles = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
         final colors = [Colors.indigo, Colors.teal, Colors.orange, Colors.purple, Colors.cyan, Colors.lime];
@@ -248,14 +235,13 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
     );
   }
 
-  // A single reusable demo "card"
   Widget _demoCard(String title, IconData icon, Color color) {
     return Container(
       height: 100,
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(8),
-        border: _showDebug ? Border.all(color: color) : null,
+        border: _controller.showDebug ? Border.all(color: color) : null,
       ),
       padding: const EdgeInsets.all(12),
       child: Row(
@@ -278,7 +264,6 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
     );
   }
 
-  // Demonstrate Expanded vs Flexible
   Widget _buildFlexDemo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -290,11 +275,10 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
           decoration: BoxDecoration(
             color: Colors.grey[100],
             borderRadius: BorderRadius.circular(6),
-            border: _showDebug ? Border.all(color: Colors.green) : null,
+            border: _controller.showDebug ? Border.all(color: Colors.green) : null,
           ),
           child: Row(
             children: [
-              // Expanded: forces the child to fill available space (tight)
               Expanded(
                 flex: 2,
                 child: Container(
@@ -303,7 +287,6 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
                 ),
               ),
               const SizedBox(width: 6),
-              // Flexible with loose fit: child can be its intrinsic size
               Flexible(
                 flex: 1,
                 child: Container(
@@ -313,7 +296,6 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
                 ),
               ),
               const SizedBox(width: 6),
-              // Expanded again
               Expanded(
                 flex: 1,
                 child: Container(
@@ -333,30 +315,3 @@ class _LayoutSolutionPageState extends State<LayoutSolutionPage> {
     );
   }
 }
-
-/*
-TIPS / EXPLANATION (for instructors)
-
-- LayoutBuilder vs MediaQuery:
-  - Use LayoutBuilder when you care about the parent's constraints (often more precise for adapting widgets inside a given container).
-  - Use MediaQuery when you need global information about the whole screen (device orientation, padding, textScaleFactor).
-
-- Breakpoints:
-  - Choose clear breakpoints (e.g., 600px for small vs large) and keep them consistent across the app.
-  - Test in different device sizes and orientations (resize the emulator or run in a browser).
-
-- Column, Row, Flex, Expanded, Flexible:
-  - Expanded = Flexible(fit: FlexFit.tight) — forces its child to fill the allocated space.
-  - Flexible (default loose fit) allows the child to have its intrinsic size while still being part of the flex layout.
-  - Common pitfall: placing unbounded-height children (e.g., ListView) inside Column without wrapping in Expanded—this causes layout errors.
-
-- GridView:
-  - GridView.count is handy for quick responsive grids. Use shrinkWrap and NeverScrollableScrollPhysics when nesting in another scrollable area.
-
-- Accessibility:
-  - Respect textScaleFactor and provide sufficient hit targets for interactive widgets.
-
-- Extensions for students:
-  - Add animation when switching layouts, introduce AdaptiveLayout that swaps widgets entirely, or show an overlay comparing layouts side-by-side.
-
-*/

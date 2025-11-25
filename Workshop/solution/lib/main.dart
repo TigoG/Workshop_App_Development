@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_workshop_solution/pages/flappy_solution.dart';
-import 'package:flutter_workshop_solution/pages/layout_solution.dart';
-import 'package:flutter_workshop_solution/pages/snake_solution.dart';
-import 'package:flutter_workshop_solution/pages/state_solution.dart';
+import 'package:flutter_workshop_solution/snake/snake_page.dart';
+import 'package:flutter_workshop_solution/flappy/flappy_page.dart';
+import 'package:flutter_workshop_solution/layout/layout_page.dart';
+import 'package:flutter_workshop_solution/state/state_page.dart';
 
 /// Starter workshop app with a main menu and four starter pages.
 void main() {
@@ -20,10 +20,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const WorkshopHomePage(),
-        SnakeSolutionPage.routeName: (context) => const SnakeSolutionPage(),
-        FlappySolutionPage.routeName: (context) => const FlappySolutionPage(),
-        LayoutSolutionPage.routeName: (context) => const LayoutSolutionPage(),
-        StateSolutionPage.routeName: (context) => const StateSolutionPage(),
+        SnakeRefactorPage.routeName: (context) => const SnakeRefactorPage(),
+        FlappyRefactorPage.routeName: (context) => const FlappyRefactorPage(),
+        LayoutRefactorPage.routeName: (context) => const LayoutRefactorPage(),
+        StateRefactorPage.routeName: (context) => const StateRefactorPage(),
       },
     );
   }
@@ -49,28 +49,28 @@ class WorkshopHomePage extends StatelessWidget {
             title: const Text('Beginner Snake'),
             subtitle: const Text('Grid-based snake game (starter scaffolding)'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).pushNamed(SnakeSolutionPage.routeName),
+            onTap: () => Navigator.of(context).pushNamed(SnakeRefactorPage.routeName),
           ),
           const Divider(),
           ListTile(
             title: const Text('Beginner Flappy Bird'),
             subtitle: const Text('Simple physics: gravity, jump and pipes (starter scaffolding)'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).pushNamed(FlappySolutionPage.routeName),
+            onTap: () => Navigator.of(context).pushNamed(FlappyRefactorPage.routeName),
           ),
           const Divider(),
           ListTile(
             title: const Text('Layout (UI & responsive)'),
             subtitle: const Text('Practice Row / Column / Flexible / Expanded'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).pushNamed(LayoutSolutionPage.routeName),
+            onTap: () => Navigator.of(context).pushNamed(LayoutRefactorPage.routeName),
           ),
           const Divider(),
           ListTile(
             title: const Text('State Management (setState basics)'),
             subtitle: const Text('Learn setState and where to plug Provider later'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.of(context).pushNamed(StateSolutionPage.routeName),
+            onTap: () => Navigator.of(context).pushNamed(StateRefactorPage.routeName),
           ),
         ],
       ),
