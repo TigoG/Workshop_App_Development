@@ -31,7 +31,7 @@ class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Layout — Refactored')),
+      appBar: AppBar(title: const Text('Layout')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: LayoutBuilder(

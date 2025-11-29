@@ -47,7 +47,7 @@ class _FlappyRefactorPageState extends State<FlappyRefactorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flappy — Refactored')),
+      appBar: AppBar(title: const Text('Flappy')),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final size = Size(constraints.maxWidth, constraints.maxHeight);

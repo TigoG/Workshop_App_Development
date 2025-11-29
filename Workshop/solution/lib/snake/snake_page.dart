@@ -56,7 +56,7 @@ class _SnakeRefactorPageState extends State<SnakeRefactorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Snake — Refactored'),
+        title: const Text('Snake'),
         actions: [
           IconButton(
             icon: Icon(_controller.paused ? Icons.play_arrow : Icons.pause),

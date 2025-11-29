@@ -1,4 +1,4 @@
-// UI using StateController
+//[] UI using StateController
 import 'package:flutter/material.dart';
 import 'state_controller.dart';
 
@@ -43,7 +43,7 @@ class _StateRefactorPageState extends State<StateRefactorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('State Management — Refactored')),
+      appBar: AppBar(title: const Text('State Management')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12.0),
         child: Column(
