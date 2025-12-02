@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'flappy_controller.dart';
 
 class FlappyRefactorPage extends StatefulWidget {
-  const FlappyRefactorPage({Key? key}) : super(key: key);
+  const FlappyRefactorPage({super.key});
   static const String routeName = '/flappy_refactor';
   @override
   State<FlappyRefactorPage> createState() => _FlappyRefactorPageState();
@@ -55,9 +55,11 @@ class _FlappyRefactorPageState extends State<FlappyRefactorPage> {
             _controller.initialize(size);
           }
 
+          // ignore: deprecated_member_use
           return RawKeyboardListener(
             focusNode: _focusNode,
             onKey: (event) {
+              // ignore: deprecated_member_use
               if (event is RawKeyDownEvent && event.logicalKey == LogicalKeyboardKey.space) {
                 _onTap();
               }

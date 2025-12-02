@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'snake_controller.dart';
 
 class SnakeRefactorPage extends StatefulWidget {
-  const SnakeRefactorPage({Key? key}) : super(key: key);
+  const SnakeRefactorPage({super.key});
   static const String routeName = '/snake_refactor';
   @override
   State<SnakeRefactorPage> createState() => _SnakeRefactorPageState();
@@ -44,11 +44,17 @@ class _SnakeRefactorPageState extends State<SnakeRefactorPage> {
     const threshold = 5;
     if (dx.abs() < threshold && dy.abs() < threshold) return;
     if (dx.abs() > dy.abs()) {
-      if (dx > 0) _controller.changeDirection(Direction.right);
-      else _controller.changeDirection(Direction.left);
+      if (dx > 0) {
+        _controller.changeDirection(Direction.right);
+      } else {
+        _controller.changeDirection(Direction.left);
+      }
     } else {
-      if (dy > 0) _controller.changeDirection(Direction.down);
-      else _controller.changeDirection(Direction.up);
+      if (dy > 0) {
+        _controller.changeDirection(Direction.down);
+      } else {
+        _controller.changeDirection(Direction.up);
+      }
     }
   }
 

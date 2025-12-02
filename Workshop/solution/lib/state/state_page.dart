@@ -4,8 +4,7 @@ import 'state_controller.dart';
 
 // Simple InheritedNotifier wrapper to expose the controller's inherited notifier
 class CounterInherited extends InheritedNotifier<ValueNotifier<int>> {
-  const CounterInherited({Key? key, required ValueNotifier<int> notifier, required Widget child})
-      : super(key: key, notifier: notifier, child: child);
+  const CounterInherited({super.key, required ValueNotifier<int> super.notifier, required super.child});
 
   static ValueNotifier<int> of(BuildContext context) {
     final widget = context.dependOnInheritedWidgetOfExactType<CounterInherited>();
@@ -15,7 +14,7 @@ class CounterInherited extends InheritedNotifier<ValueNotifier<int>> {
 }
 
 class StateRefactorPage extends StatefulWidget {
-  const StateRefactorPage({Key? key}) : super(key: key);
+  const StateRefactorPage({super.key});
   static const String routeName = '/state_refactor';
   @override
   State<StateRefactorPage> createState() => _StateRefactorPageState();
@@ -73,10 +72,10 @@ class _StateRefactorPageState extends State<StateRefactorPage> {
   Widget _sectionTitle(String text) =>
       Padding(padding: const EdgeInsets.symmetric(vertical: 6.0), child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold)));
 
-  Widget _localSetStateCard() => Card(
+  Widget _localSetStateCard() => const Card(
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
+          padding: EdgeInsets.all(12.0),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('Local setState (state lives inside this widget):'),
             SizedBox(height: 8),
             LocalCounterRefactor(),
@@ -200,7 +199,7 @@ class _StateRefactorPageState extends State<StateRefactorPage> {
 
 // LocalCounterRefactor
 class LocalCounterRefactor extends StatefulWidget {
-  const LocalCounterRefactor({Key? key}) : super(key: key);
+  const LocalCounterRefactor({super.key});
   @override
   State<LocalCounterRefactor> createState() => _LocalCounterRefactorState();
 }
@@ -228,8 +227,7 @@ class LiftingChildRefactor extends StatelessWidget {
   final VoidCallback onDecrement;
   final VoidCallback onReset;
 
-  const LiftingChildRefactor({Key? key, required this.value, required this.onIncrement, required this.onDecrement, required this.onReset})
-      : super(key: key);
+  const LiftingChildRefactor({super.key, required this.value, required this.onIncrement, required this.onDecrement, required this.onReset});
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +245,7 @@ class LiftingChildRefactor extends StatelessWidget {
 
 // DeepInheritedChildRefactor
 class DeepInheritedChildRefactor extends StatelessWidget {
-  const DeepInheritedChildRefactor({Key? key}) : super(key: key);
+  const DeepInheritedChildRefactor({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +272,7 @@ class SelectionPageRefactor extends StatelessWidget {
   final String title;
   final List<String> options;
 
-  const SelectionPageRefactor({Key? key, required this.title, required this.options}) : super(key: key);
+  const SelectionPageRefactor({super.key, required this.title, required this.options});
 
   @override
   Widget build(BuildContext context) {

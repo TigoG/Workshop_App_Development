@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'layout_controller.dart';
 
 class LayoutRefactorPage extends StatefulWidget {
-  const LayoutRefactorPage({Key? key}) : super(key: key);
+  const LayoutRefactorPage({super.key});
   static const String routeName = '/layout_refactor';
   @override
   State<LayoutRefactorPage> createState() => _LayoutRefactorPageState();
@@ -216,7 +216,7 @@ class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
   }
 
   Widget _gridWidget(double width) {
-    final desiredItemWidth = 160.0;
+    const desiredItemWidth = 160.0;
     final count = (width / desiredItemWidth).clamp(1, 6).floor();
     final crossAxisCount = count < 1 ? 1 : count;
 
@@ -224,14 +224,14 @@ class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
       crossAxisCount: crossAxisCount,
       crossAxisSpacing: _controller.gap,
       mainAxisSpacing: _controller.gap,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: List.generate(6, (i) {
         final titles = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
         final colors = [Colors.indigo, Colors.teal, Colors.orange, Colors.purple, Colors.cyan, Colors.lime];
         final icons = [Icons.looks_one, Icons.looks_two, Icons.looks_3, Icons.looks_4, Icons.looks_5, Icons.looks_6];
         return _demoCard(titles[i], icons[i], colors[i]);
       }),
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
     );
   }
 
@@ -239,6 +239,7 @@ class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
     return Container(
       height: 100,
       decoration: BoxDecoration(
+        // ignore: deprecated_member_use
         color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(8),
         border: _controller.showDebug ? Border.all(color: color) : null,
