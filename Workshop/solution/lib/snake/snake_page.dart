@@ -152,7 +152,7 @@ class _SnakeRefactorPageState extends State<SnakeRefactorPage> {
                                 height: _controller.cellSize,
                                 child: Container(
                                   margin: EdgeInsets.all(_controller.cellSize * 0.08),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.red,
                                     shape: BoxShape.circle,
                                   ),
@@ -221,6 +221,7 @@ class GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
+      // ignore: deprecated_member_use
       ..color = Colors.grey.withOpacity(0.25)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.0;
