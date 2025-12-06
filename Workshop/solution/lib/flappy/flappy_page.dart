@@ -70,8 +70,8 @@ class _FlappyRefactorPageState extends State<FlappyRefactorPage> {
               child: Stack(
                 children: [
                   Container(color: Colors.lightBlue[200]),
-                  // Pipes
-                  ..._controller.pipes.map((p) => _buildPipe(p)),
+                  // Pipes - expanded into multiple Positioned widgets
+                  ..._controller.pipes.expand((p) => _buildPipe(p)),
                   // Bird
                   _buildBird(),
                   // Ground
@@ -168,21 +168,32 @@ class _FlappyRefactorPageState extends State<FlappyRefactorPage> {
     );
   }
 
-  Widget _buildPipe(Pipe p) {
+  List<Widget> _buildPipe(Pipe p) {
     final topHeight = p.gapY;
-    final bottomTop = p.gapY + p.gapHeight;
+    final gapHeight = p.gapHeight;
+    final bottomTop = p.gapY + gapHeight;
     final bottomHeight = math.max(0.0, _controller.gameHeight - _controller.groundHeight - bottomTop);
-    return Positioned(
-      left: p.x,
-      top: 0,
-      child: Column(
-        children: [
-          Container(width: p.width, height: topHeight, color: Colors.green[700]),
-          const SizedBox(height: 0),
-          Container(width: p.width, height: bottomHeight, color: Colors.green[700]),
-        ],
+
+    return [
+      Positioned(
+        left: p.x,
+        top: 0,
+        child: Container(
+          width: p.width,
+          height: topHeight,
+          color: Colors.green[700],
+        ),
       ),
-    );
+      Positioned(
+        left: p.x,
+        top: bottomTop,
+        child: Container(
+          width: p.width,
+          height: bottomHeight,
+          color: Colors.green[700],
+        ),
+      ),
+    ];
   }
 
   Widget _buildBird() {

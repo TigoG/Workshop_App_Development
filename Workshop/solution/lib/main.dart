@@ -3,6 +3,7 @@ import 'package:flutter_workshop_solution/snake/snake_page.dart';
 import 'package:flutter_workshop_solution/flappy/flappy_page.dart';
 import 'package:flutter_workshop_solution/layout/layout_page.dart';
 import 'package:flutter_workshop_solution/state/state_page.dart';
+import 'package:flutter_workshop_solution/animations/animations_page.dart';
 
 /// Starter workshop app with a main menu and four starter pages.
 void main() {
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         FlappyRefactorPage.routeName: (context) => const FlappyRefactorPage(),
         LayoutRefactorPage.routeName: (context) => const LayoutRefactorPage(),
         StateRefactorPage.routeName: (context) => const StateRefactorPage(),
+        AnimationsRefactorPage.routeName: (context) => const AnimationsRefactorPage(),
       },
     );
   }
@@ -71,6 +73,13 @@ class WorkshopHomePage extends StatelessWidget {
             subtitle: const Text('Learn setState and where to plug Provider later'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => Navigator.of(context).pushNamed(StateRefactorPage.routeName),
+          ),
+          const Divider(),
+          ListTile(
+            title: const Text('Animations (implicit & explicit)'),
+            subtitle: const Text('Various Flutter animation patterns and examples'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.of(context).pushNamed(AnimationsRefactorPage.routeName),
           ),
         ],
       ),
