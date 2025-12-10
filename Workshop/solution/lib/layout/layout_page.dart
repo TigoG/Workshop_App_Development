@@ -116,19 +116,20 @@ class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
   }
 
   Widget _buildPreview(LayoutMode mode, double width) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Text(
-            'Preview: ${_modeLabel(mode)} (available width: ${width.toStringAsFixed(0)} px)',
-            style: const TextStyle(fontWeight: FontWeight.bold),
+    // Make the preview area scrollable so the content won't overflow.
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Text(
+              'Preview: ${_modeLabel(mode)} (available width: ${width.toStringAsFixed(0)} px)',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Expanded(
-          child: Container(
+          const SizedBox(height: 8),
+          Container(
             padding: EdgeInsets.all(_controller.gap / 2),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -137,10 +138,10 @@ class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
             ),
             child: _buildLayoutContent(mode, width),
           ),
-        ),
-        const SizedBox(height: 12),
-        _buildFlexDemo(),
-      ],
+          const SizedBox(height: 12),
+          _buildFlexDemo(),
+        ],
+      ),
     );
   }
 
@@ -219,13 +220,18 @@ class _LayoutRefactorPageState extends State<LayoutRefactorPage> {
     const desiredItemWidth = 160.0;
     final count = (width / desiredItemWidth).clamp(1, 6).floor();
     final crossAxisCount = count < 1 ? 1 : count;
-
+  
     return GridView.count(
       crossAxisCount: crossAxisCount,
       crossAxisSpacing: _controller.gap,
       mainAxisSpacing: _controller.gap,
+      // When the preview area is made scrollable, the GridView should not
+      // perform its own scrolling. Use shrinkWrap so the grid sizes to its
+      // content and disable its internal scrolling; the preview scroll view
+      // will handle overflow.
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
       children: List.generate(6, (i) {
         final titles = ['One', 'Two', 'Three', 'Four', 'Five', 'Six'];
         final colors = [Colors.indigo, Colors.teal, Colors.orange, Colors.purple, Colors.cyan, Colors.lime];

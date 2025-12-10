@@ -1,71 +1,114 @@
-Run the Flutter app with Android Studio (Windows 11)
+# Run Android Studio
+This page explains how to download, install, and run Android Studio and set up an Android emulator so you can run Android apps locally.
 
-Quick checklist
-- Android Studio installed (2020+), Flutter & Dart plugins installed
-- Flutter SDK available (system install or workspace copy at [`flutter/bin/flutter.bat`](flutter/bin/flutter.bat:1))
-- Android SDK and emulator images installed via SDK Manager
-- An emulator created (AVD) or a physical device with USB debugging enabled
+## 1. Download Android Studio
+- Download the official Android Studio installer from: https://developer.android.com/studio
+- Choose the correct installer for your operating system (Windows, macOS, Linux).
 
-Open the project in Android Studio
-1. File → Open, choose the folder that contains the project's `pubspec.yaml` (e.g. the starter app at [`starter/pubspec.yaml`](starter/pubspec.yaml:1)).
-2. Android Studio will detect a Flutter project. If it asks for the Flutter SDK path, point it to the SDK folder (for example the workspace copy at [`flutter`](flutter:1) — the plugin expects the parent folder that contains `bin`.)
+## 2. Install Android Studio
 
-Install Flutter & Dart plugins (if missing)
-1. Settings → Plugins → Marketplace → search 'Flutter' and install (this installs Dart automatically).
-2. Restart Android Studio if prompted.
+You can install Android Studio on Windows, macOS, or Linux. Follow the steps for your operating system below.
 
-Get dependencies
-1. Open the terminal in Android Studio (View → Tool Windows → Terminal) or use the IDE 'Pub get' action.
-2. Run: flutter pub get
+### Windows
+1. Run the downloaded installer and follow the setup wizard.
+2. When prompted, ensure the following components are selected:
+   - Android Studio IDE
+   - Android SDK
+   - Android SDK Platform-Tools
+   - Android SDK Build-Tools
+3. Choose the installation path (the default is fine).
+4. Finish the installation and launch Android Studio.
 
-Create and start an emulator (AVD)
-1. Tools → AVD Manager.
-2. Create Virtual Device → choose device (e.g. Pixel 4), pick a system image (API 30+), download if needed, Finish.
-3. Start the emulator (click the green 'play' icon in AVD Manager).
+### macOS
+1. Open the downloaded .dmg file and drag Android Studio to the Applications folder.
+2. Open Android Studio from Applications. If macOS blocks opening the app, Control-click the app and choose "Open", then confirm.
+3. On first launch follow the setup wizard and install the Android SDK and recommended components. If you have an Apple Silicon (M1/M2) Mac, choose the Apple Silicon (arm64) build when available.
+4. Complete the setup and launch the IDE.
 
-Run the app
-1. In the top toolbar choose your target device (the running emulator or a connected physical device).
-2. Select the run configuration (should detect the main Dart entrypoint; if not, create a new Flutter configuration pointing to `lib/main.dart` — for the starter app see [`starter/lib/main.dart`](starter/lib/main.dart:1)).
-3. Click the green Run (play) button or press Shift+F10. The app will build and install on the device.
+### Linux
+Option A — Snap (recommended on distributions that support Snap):
 
-Use logcat and debug tools
-- Open Logcat (bottom tool window) for Android logs. Use the Debug tool window to inspect variables and hot reload.
-- Press 'Hot reload' (lightning icon) or press 'r' in the terminal running `flutter run` to apply code changes quickly.
+1. Install Android Studio with:
+   sudo snap install android-studio --classic
 
-Physical device steps
-1. Enable Developer options and USB debugging on your Android device.
-2. Connect via USB and accept the dialog on the device.
-3. Run `flutter devices` in the terminal to confirm the device shows up.
-4. Select the device in Android Studio and press Run.
+Option B — Manual install:
 
-Useful commands (Android Studio terminal or system terminal)
-- flutter doctor
-- flutter devices
-- flutter emulators --launch <emulatorId>
-- flutter run
-- flutter clean && flutter pub get
+1. Extract the downloaded .tar.gz to a directory such as /opt:
+   sudo tar -xzf android-studio-*.tar.gz -C /opt
+2. Run the studio launcher:
+   /opt/android-studio/bin/studio.sh
+3. Optionally create a desktop entry when prompted.
 
-If you see 'Gradle sync' or build errors
-- Run `flutter pub get` and `flutter clean`.
-- Open 'File → Sync Project with Gradle Files' and accept any SDK/Gradle updates.
-- Ensure Android SDK Build-Tools and Platform are installed (Settings → Appearance & Behavior → System Settings → Android SDK).
-- If you see license errors run `flutter doctor --android-licenses` and accept.
+4. When prompted during the first run, install the Android SDK, Android SDK Platform-Tools, and Android SDK Build-Tools.
 
-Running the solution app
-- To run the final app (with persistent favorites), open the solution project root that contains [`solution/pubspec.yaml`](solution/pubspec.yaml:1) and point the run configuration to [`solution/lib/main.dart`](solution/lib/main.dart:1).
+Note for Linux: The Android emulator requires certain 32-bit compatibility libraries on 64-bit systems. On Debian/Ubuntu these typically include:
+   sudo apt-get install libc6:i386 libstdc++6:i386 libgcc1:i386 libncurses5:i386 libz1:i386
 
-Troubleshooting tips
-- If Android Studio prompts for a Gradle JDK, use the embedded JDK or a compatible JDK 11+.
-- If emulator is slow, enable hardware acceleration (HAXM / Hyper-V / Windows Hypervisor).
-- If networking calls fail on emulator, check emulator's internet and firewall/proxy settings.
-- Use the solution APK (build with `flutter build apk --debug`) to install directly if the IDE build fails.
+## 3. Install Flutter & Dart plugins (if using Flutter)
+1. In Android Studio go to File > Settings (Android Studio > Preferences on macOS) > Plugins.
+2. Search for and install "Flutter". Accept the prompt to also install the "Dart" plugin.
+3. Restart Android Studio when prompted.
 
-Where to find starter files
-- Starter code: [`starter/lib/main.dart`](starter/lib/main.dart:1)
-- Starter README: [`starter/README.md`](starter/README.md:1)
-- Solution code: [`solution/lib/main.dart`](solution/lib/main.dart:1)
+## 4. Configure the Android SDK
+1. In Android Studio go to Configure > SDK Manager (or File > Settings > Appearance & Behavior > System Settings > Android SDK).
+2. Install a recommended Android API level (for example, Android 15 / API level 35).
+3. Under the SDK Tools tab ensure "Android SDK Platform-Tools" and "Android SDK Build-Tools" are installed.
+4. Note the Android SDK location shown at the top; common default on Windows is: C:\Users\<your-username>\AppData\Local\Android\Sdk
 
-Common issues & fixes quick list
-1) Flutter binary not found in Android Studio plugin: set Flutter SDK path to the folder that contains `bin` (e.g. [`flutter/bin/flutter.bat`](flutter/bin/flutter.bat:1)).
-2) 'No connected devices' — start an emulator from AVD Manager or connect a physical device and run `flutter devices`.
-3) 'Execution failed for task :app:installDebug' — uninstall the previous app from device or run `adb uninstall <package>` and retry.
+## 5. Create and run an Android Virtual Device (AVD)
+1. In Android Studio open Configure > AVD Manager (or Tools > AVD Manager).
+2. Click "Create Virtual Device", choose a device profile, then select a system image (prefer an x86/x86_64 image with Google APIs).
+3. Finish the wizard and then click the green 'Play' button to launch the emulator.
+
+Thats enough for now, we will go through the rest in the workshop.
+
+### Extra: Create a new Flutter project (Flutter only)?
+If you're using Flutter, you can quickly scaffold a new app using the Flutter CLI.
+
+- Create a new project in a new directory:
+  flutter create my_app
+
+- Create a Flutter project in the current directory (the directory must be empty):
+  flutter create .
+
+After creating the project:
+
+1. Change into the project directory:
+   cd my_app   (or stay in the current directory if you used `flutter create .`)
+2. Get dependencies:
+   flutter pub get
+3. Run on an attached device or emulator:
+   flutter run
+
+To open the project in Android Studio:
+
+- Open Android Studio → File > Open and select the project's root folder.
+- Android Studio will detect the Flutter project. If prompted to install plugins or SDK components, follow the prompts.
+
+Notes:
+
+- `flutter create .` should be run in an empty directory — it will add project files and may overwrite existing files in a non-empty directory.
+- If you see errors running `flutter create`, ensure the Flutter SDK is on your PATH and run `flutter doctor` to fix any issues.
+
+## 6. Verify installation and accept licenses
+1. Open a terminal (Command Prompt or PowerShell on Windows).
+2. Run:
+   flutter doctor
+3. If you see Android tool or SDK license issues, run:
+   flutter doctor --android-licenses
+   and accept all licenses.
+
+## 7. Run your app on an emulator or device
+- To run from Android Studio: open your project, select a device/emulator in the toolbar, then click the Run (Play) button.
+- From the terminal in your project folder (for Flutter projects) run:
+   flutter run
+- If running a native Android project from the command line, use Gradle:
+   ./gradlew assembleDebug
+
+## 8. Common troubleshooting
+- Emulator is slow: enable hardware acceleration (Intel HAXM on Intel CPUs) or use an x86 image; ensure virtualization is enabled in BIOS/UEFI.
+- SDK not found: ensure ANDROID_HOME or ANDROID_SDK_ROOT environment variables point to the SDK location if tools cannot locate it.
+- Missing licenses: run flutter doctor --android-licenses and accept them.
+
+## Useful links
+- Android Studio download: https://developer.android.com/studio
