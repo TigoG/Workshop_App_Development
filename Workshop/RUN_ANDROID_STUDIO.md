@@ -55,5 +55,42 @@ Note for Linux: The Android emulator requires certain 32-bit compatibility libra
 3. Under the SDK Tools tab ensure "Android SDK Platform-Tools" and "Android SDK Build-Tools" are installed.
 4. Note the Android SDK location shown at the top; common default on Windows is: C:\Users\<your-username>\AppData\Local\Android\Sdk
 
+
+## 5. Flutter desktop (optional)
+
+If you also want to build Flutter apps for desktop (Windows, macOS, Linux), you need platform-specific native toolchains in addition to the Android Studio setup above. Android Studio remains useful for the Android SDK, AVD Manager and Flutter/Dart plugins, but desktop builds require extra tools:
+
+### Windows
+- Install Microsoft Visual Studio 2022 (Community edition is fine).
+  - Open the Visual Studio Installer → Workloads → select **Desktop development with C++**.
+  - Ensure these components are installed: MSVC (C++ build tools, e.g. v143), the Windows 10/11 SDK, and **C++ CMake tools for Windows** (CMake support).
+  - Note: Visual Studio Code is an editor and does *not* replace Visual Studio’s MSVC toolchain required for Windows desktop builds.
+- Enable support and verify:
+  - Run: `flutter config --enable-windows-desktop`
+  - Verify: `flutter doctor`
+
+### macOS
+- Install Xcode (full Xcode from the App Store) and the command-line tools:
+  - Run: `xcode-select --install`
+- Enable support and verify:
+  - Run: `flutter config --enable-macos-desktop`
+  - Verify: `flutter doctor`
+- Note: Distribution on macOS requires code signing and notarization; configure signing in Xcode when packaging.
+
+### Linux
+- Install native build dependencies (Ubuntu/Debian example):
+  - sudo apt-get update
+  - sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+- Enable support and verify:
+  - Run: `flutter config --enable-linux-desktop`
+  - Verify: `flutter doctor`
+- For other distributions install the equivalent packages for your distro.
+
+Common troubleshooting
+- Always run `flutter doctor` after installing toolchains and follow any suggested fixes.
+- If `flutter doctor` reports missing Visual Studio components on Windows, open Visual Studio Installer → Modify and add the required workload/components.
+- Keep Android Studio installed for the Android SDK, emulator (AVD) and the Flutter/Dart plugins — Android Studio is still the recommended place to manage Android SDK/AVDs.
+
 ## Useful links
 - Android Studio download: https://developer.android.com/studio
+- Visual Studio Code download: https://code.visualstudio.com/
