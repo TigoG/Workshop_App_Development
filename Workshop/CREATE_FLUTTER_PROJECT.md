@@ -64,5 +64,3 @@ Troubleshooting tips
 Useful links
 
 - Android Studio: https://developer.android.com/studio
-
-Last updated: 2025-12-10
