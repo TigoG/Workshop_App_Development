@@ -63,4 +63,8 @@ Troubleshooting tips
 
 Useful links
 
+<<<<<<< HEAD
 - Android Studio: https://developer.android.com/studio
+=======
+- Android Studio: https://developer.android.com/studio
+>>>>>>> 6ab58dded338bfb74bbad894f0ff3479df56b0fb
