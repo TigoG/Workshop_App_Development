@@ -6,7 +6,7 @@ Prerequisites
 
 - Android Studio installed: https://developer.android.com/studio
 - For Android development, Android SDK and an emulator set up in Android Studio.
-- Flutter SDK (optional): If you plan to create and run Flutter projects entirely from within Android Studio using the Flutter & Dart plugins, you do not need to manually install the Flutter SDK beforehand — the plugin can prompt to download or configure a local SDK during setup. However, if you want to use Flutter commands from the terminal (flutter create, flutter run, flutter pub get), you must install the Flutter SDK and add it to your PATH: https://flutter.dev/docs/get-started/install
+- Flutter SDK (optional): If you plan to create and run Flutter projects entirely from within Android Studio using the Flutter & Dart plugins, you do not need to manually install the Flutter SDK beforehand. The plugin can prompt to download or configure a local SDK during setup. However, if you want to use Flutter commands from the terminal (flutter create, flutter run, flutter pub get), you must install the Flutter SDK and add it to your PATH: https://flutter.dev/docs/get-started/install
 
 Quick demo
 
@@ -64,5 +64,3 @@ Troubleshooting tips
 Useful links
 
 - Android Studio: https://developer.android.com/studio
-
-Last updated: 2025-12-10
